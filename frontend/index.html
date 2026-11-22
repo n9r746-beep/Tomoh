@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام التقرير الأسبوعي — إدارة علاقات نمو المنشآت (طموح)</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top Header (shown when authenticated) -->
+    <header id="topbar" class="topbar hidden">
+      <div class="topbar-right">
+        <img src="/assets/monshaat-logo.png" alt="منشآت" class="brand-logo" />
+        <div class="brand-titles">
+          <span class="brand-title">نظام التقرير الأسبوعي — طموح</span>
+          <span class="brand-sub">إدارة علاقات نمو المنشآت</span>
+        </div>
+      </div>
+      <nav id="topnav" class="topnav"></nav>
+      <div class="topbar-left">
+        <div class="user-chip">
+          <span id="user-name-label" class="user-name"></span>
+          <span id="user-role-badge" class="badge badge-role"></span>
+        </div>
+        <button id="btn-logout" class="btn btn-outline btn-sm" type="button">تسجيل الخروج</button>
+      </div>
+    </header>
+
+    <!-- Global Toast / Alert Container -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- Main Dynamic View Container -->
+    <main id="main-content" class="container">
+      <div class="loading-state">جاري تحميل النظام...</div>
+    </main>
+  </div>
+
+  <!-- Modal Container (Create New Week / Request Revision / Preview) -->
+  <div id="modal-backdrop" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title"></h3>
+        <button id="modal-close" class="btn-icon" type="button" aria-label="إغلاق">×</button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

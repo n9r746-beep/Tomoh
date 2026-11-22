@@ -1,0 +1,483 @@
+{
+  "schema_version": "1.0.0",
+  "template_name": "التحديث الاسبوعي رقم 44.pptx",
+  "expected_slide_count": 65,
+  "expected_dimensions_emu": {
+    "width": 12192000,
+    "height": 6858000
+  },
+  "status_visual_styles": {
+    "on_track": {
+      "label_ar": "وفق المخطط",
+      "fill_hex": "00B050",
+      "text_hex": "FFFFFF"
+    },
+    "delayed": {
+      "label_ar": "متأخر",
+      "fill_hex": "FFC000",
+      "text_hex": "1F2937"
+    },
+    "critically_delayed": {
+      "label_ar": "متأخر جدًا",
+      "fill_hex": "FF0000",
+      "text_hex": "FFFFFF"
+    },
+    "on_hold": {
+      "label_ar": "معلق",
+      "fill_hex": "7030A0",
+      "text_hex": "FFFFFF"
+    },
+    "completed": {
+      "label_ar": "مكتمل",
+      "fill_hex": "007094",
+      "text_hex": "FFFFFF"
+    },
+    "not_started": {
+      "label_ar": "لم يبدأ",
+      "fill_hex": "A6A6A6",
+      "text_hex": "FFFFFF"
+    }
+  },
+  "mappings": [
+    {
+      "slide_number": 1,
+      "object_type": "shape",
+      "object_id": "13",
+      "field_key": "metadata.report_title_ar",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"required": true, "max_chars": 80},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 4,
+      "object_type": "shape",
+      "object_id": "42",
+      "field_key": "kpi.SMI_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 8},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 4,
+      "object_type": "shape",
+      "object_id": "16",
+      "field_key": "kpi.SMI_CUMULATIVE_2026",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 8},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 4,
+      "object_type": "shape",
+      "object_id": "33",
+      "field_key": "kpi.SMI1_CUMULATIVE_TOTAL",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 8},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 4,
+      "object_type": "shape",
+      "object_id": "39",
+      "field_key": "kpi.SMI1_COMPLETION_PCT",
+      "data_type": "percentage",
+      "format_rule": "percent_prefix",
+      "validation": {"min": 0, "max": 100, "max_chars": 6},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 5,
+      "object_type": "shape",
+      "object_id": "19",
+      "field_key": "kpi.REG_COMPANIES_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 8},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 5,
+      "object_type": "shape",
+      "object_id": "24",
+      "field_key": "kpi.REG_COMPANIES_2026",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 8},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 5,
+      "object_type": "shape",
+      "object_id": "41",
+      "field_key": "kpi.REG_COMPANIES_ALL_TIME",
+      "data_type": "integer",
+      "format_rule": "comma_int",
+      "validation": {"min": 0, "max_chars": 10},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 5,
+      "object_type": "shape",
+      "object_id": "8",
+      "field_key": "kpi.REG_COMPANIES_TARGET_2026",
+      "data_type": "integer",
+      "format_rule": "prefix:المستهدف: ",
+      "validation": {"min": 0, "max_chars": 24},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 6,
+      "object_type": "shape",
+      "object_id": "15",
+      "field_key": "kpi.DIAGNOSTIC_REPORTS_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 8},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 6,
+      "object_type": "shape",
+      "object_id": "20",
+      "field_key": "kpi.DIAGNOSTIC_REPORTS_2026",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 8},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 6,
+      "object_type": "shape",
+      "object_id": "24",
+      "field_key": "kpi.DIAGNOSTIC_REPORTS_ALL_TIME",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 10},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 7,
+      "object_type": "shape",
+      "object_id": "11",
+      "field_key": "kpi.BENEFICIARIES_UPDATED",
+      "data_type": "integer",
+      "format_rule": "comma_int",
+      "validation": {"min": 0, "max_chars": 10},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 9,
+      "object_type": "shape",
+      "object_id": "125",
+      "field_key": "kpi.SMI1_RM_FAHAD_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 6},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 9,
+      "object_type": "shape",
+      "object_id": "117",
+      "field_key": "kpi.SMI1_RM_MOHAMMED_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 6},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 9,
+      "object_type": "shape",
+      "object_id": "103",
+      "field_key": "kpi.SMI1_RM_FAISAL_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 6},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 9,
+      "object_type": "shape",
+      "object_id": "110",
+      "field_key": "kpi.SMI1_RM_KHALID_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 6},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 9,
+      "object_type": "shape",
+      "object_id": "140",
+      "field_key": "kpi.SMI1_RM_TOTAL_WEEKLY",
+      "data_type": "integer",
+      "format_rule": "int",
+      "validation": {"min": 0, "max_chars": 6},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 10,
+      "object_type": "shape",
+      "object_id": "552",
+      "field_key": "narrative.SMI2_MONTH_LABEL",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 60},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 10,
+      "object_type": "shape",
+      "object_id": "553",
+      "field_key": "narrative.SMI2_AXIS_1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 100},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 16,
+      "object_type": "shape",
+      "object_id": "4",
+      "field_key": "achievement.P1_3.1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 160},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 16,
+      "object_type": "shape",
+      "object_id": "7",
+      "field_key": "achievement.P1_3.2",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 180},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 16,
+      "object_type": "shape",
+      "object_id": "10",
+      "field_key": "achievement.P1_3.3",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 160},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 16,
+      "object_type": "shape",
+      "object_id": "13",
+      "field_key": "task.P1_3.1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 140},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 20,
+      "object_type": "table_cell",
+      "object_id": "11",
+      "row": 1,
+      "col": 0,
+      "field_key": "event.CAL_2026_DEC_1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 140},
+      "fallback_behavior": "preserve_template",
+      "resizable": false
+    },
+    {
+      "slide_number": 20,
+      "object_type": "table_cell",
+      "object_id": "11",
+      "row": 2,
+      "col": 0,
+      "field_key": "event.CAL_2026_DEC_2",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 140},
+      "fallback_behavior": "preserve_template",
+      "resizable": false
+    },
+    {
+      "slide_number": 29,
+      "object_type": "shape",
+      "object_id": "66",
+      "field_key": "kpi.ENABLERS_ACTIVATED",
+      "data_type": "ratio",
+      "format_rule": "ratio",
+      "validation": {"max_chars": 12},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 29,
+      "object_type": "shape",
+      "object_id": "80",
+      "field_key": "kpi.ENABLERS_NEW_SERVICES",
+      "data_type": "ratio",
+      "format_rule": "ratio",
+      "validation": {"max_chars": 12},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 29,
+      "object_type": "shape",
+      "object_id": "81",
+      "field_key": "kpi.ENABLERS_TRACKS",
+      "data_type": "ratio",
+      "format_rule": "ratio",
+      "validation": {"max_chars": 12},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 29,
+      "object_type": "shape",
+      "object_id": "82",
+      "field_key": "kpi.ENABLERS_BENEFITING_SMES",
+      "data_type": "ratio",
+      "format_rule": "ratio",
+      "validation": {"max_chars": 12},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 29,
+      "object_type": "shape",
+      "object_id": "83",
+      "field_key": "kpi.ENABLERS_EVENTS",
+      "data_type": "ratio",
+      "format_rule": "ratio",
+      "validation": {"max_chars": 12},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 30,
+      "object_type": "shape",
+      "object_id": "66",
+      "field_key": "achievement.P1_6.1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 150},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 30,
+      "object_type": "shape",
+      "object_id": "28",
+      "field_key": "achievement.P1_6.2",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 150},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 30,
+      "object_type": "shape",
+      "object_id": "17",
+      "field_key": "task.P1_6.1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 150},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 30,
+      "object_type": "shape",
+      "object_id": "9",
+      "field_key": "task.P1_6.2",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 150},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 32,
+      "object_type": "shape",
+      "object_id": "67",
+      "field_key": "challenge.INT_RELATIONSHIP",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 180},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 34,
+      "object_type": "status_table_cell",
+      "object_id": "47",
+      "row": 0,
+      "col": 0,
+      "field_key": "status.INT_AI_DIAGNOSTIC",
+      "data_type": "project_status",
+      "format_rule": "status_badge",
+      "validation": {"enum": ["on_track", "delayed", "critically_delayed", "on_hold", "completed", "not_started"]},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 34,
+      "object_type": "shape",
+      "object_id": "67",
+      "field_key": "challenge.INT_AI_DIAGNOSTIC",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 190},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 34,
+      "object_type": "shape",
+      "object_id": "65",
+      "field_key": "deliverables.INT_AI_DIAGNOSTIC",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 260},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 38,
+      "object_type": "shape",
+      "object_id": "14",
+      "field_key": "news.ITEM_1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 240},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 38,
+      "object_type": "shape",
+      "object_id": "4",
+      "field_key": "news.ITEM_2",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {"max_chars": 240},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 38,
+      "object_type": "image_replace",
+      "object_id": "10",
+      "field_key": "news.IMAGE_1",
+      "data_type": "image_path",
+      "format_rule": "center_crop_preserve_aspect",
+      "validation": {"allowed_mimes": ["image/png", "image/jpeg"]},
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 40,
+      "object_type": "table_rows",
+      "object_id": "7",
+      "field_key": "action_items.ACTIVE_MEETING",
+      "data_type": "table_rows",
+      "format_rule": "action_items_6col",
+      "validation": {"min_rows": 1, "max_rows": 8, "max_cell_chars": 120},
+      "fallback_behavior": "preserve_template",
+      "resizable": true,
+      "columns": ["status", "weekly_update", "expected_due_date", "owner_label", "title_ar", "sequence_no"]
+    }
+  ]
+}

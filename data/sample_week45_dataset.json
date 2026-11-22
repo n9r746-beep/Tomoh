@@ -1,0 +1,141 @@
+{
+  "_synthetic_data_disclaimer": "SYNTHETIC TEST DATA ONLY — Clearly separated from real organizational reporting results. Used solely to test and validate the Phase 1 TOMOH backend engine.",
+  "reporting_week": {
+    "week_number": 45,
+    "fiscal_year": 2026,
+    "start_date": "2026-11-15",
+    "end_date": "2026-11-21",
+    "report_title_ar": "التقرير الأسبوعي رقم (45) لإدارة علاقات نمو المنشآت [بيانات اختبارية]"
+  },
+  "submissions": [
+    {
+      "project_id": "proj-platform",
+      "actor_user_id": "u-coord",
+      "submission_status": "approved",
+      "kpis": [
+        {"kpi_code": "SMI_WEEKLY", "numeric_value": 14},
+        {"kpi_code": "SMI_CUMULATIVE_2026", "numeric_value": 83},
+        {"kpi_code": "SMI1_CUMULATIVE_TOTAL", "numeric_value": 1524},
+        {"kpi_code": "SMI1_COMPLETION_PCT", "numeric_value": 99},
+        {"kpi_code": "REG_COMPANIES_WEEKLY", "numeric_value": 42},
+        {"kpi_code": "REG_COMPANIES_2026", "numeric_value": 323},
+        {"kpi_code": "REG_COMPANIES_ALL_TIME", "numeric_value": 3574},
+        {"kpi_code": "REG_COMPANIES_TARGET_2026", "numeric_value": 500},
+        {"kpi_code": "DIAGNOSTIC_REPORTS_WEEKLY", "numeric_value": 9},
+        {"kpi_code": "DIAGNOSTIC_REPORTS_2026", "numeric_value": 278},
+        {"kpi_code": "DIAGNOSTIC_REPORTS_ALL_TIME", "numeric_value": 3230},
+        {"kpi_code": "SMI1_RM_FAHAD_WEEKLY", "numeric_value": 4},
+        {"kpi_code": "SMI1_RM_MOHAMMED_WEEKLY", "numeric_value": 3},
+        {"kpi_code": "SMI1_RM_FAISAL_WEEKLY", "numeric_value": 4},
+        {"kpi_code": "SMI1_RM_KHALID_WEEKLY", "numeric_value": 3},
+        {"kpi_code": "SMI1_RM_TOTAL_WEEKLY", "numeric_value": 14}
+      ]
+    },
+    {
+      "project_id": "proj-p1-3",
+      "actor_user_id": "u-maram",
+      "submission_status": "submitted",
+      "achievements": [
+        {"slot_index": 1, "content_ar": "[اختبار] اعتماد النسخة النهائية لفيديوهات قصص النجاح بعد استكمال كافة الملاحظات الفنية."},
+        {"slot_index": 2, "content_ar": "[اختبار] استلام الجدول الزمني النهائي وتصاميم الحملة المصغرة المصاحبة ورفعها للاعتماد."},
+        {"slot_index": 3, "content_ar": "[اختبار] مواءمة المحتوى التعريفي لبرنامج طموح مع الرسائل الإعلامية للربع الرابع."}
+      ],
+      "upcoming_tasks": [
+        {"task_kind": "project_task", "sequence_no": 1, "title_ar": "[اختبار] إطلاق الحملة المصغرة رقمياً ومتابعة مؤشرات الوصول والتفاعل الأسبوعي."}
+      ]
+    },
+    {
+      "project_id": "proj-p1-4",
+      "actor_user_id": "u-maram",
+      "submission_status": "submitted",
+      "kpis": [
+        {"kpi_code": "BENEFICIARIES_UPDATED", "numeric_value": 1285}
+      ],
+      "events": [
+        {
+          "slot_key": "CAL_2026_DEC_1",
+          "title_ar": "رحلة المعرفة إلى هولندا [تحديث اختباري]",
+          "event_date_label": "11",
+          "lead_names_ar": "نورة الضويحي",
+          "event_status": "على المسار",
+          "beneficiaries_count": 28
+        },
+        {
+          "slot_key": "CAL_2026_DEC_2",
+          "title_ar": "ورشة عمل التوسع الإقليمي للمنشآت [تحديث اختباري]",
+          "event_date_label": "18",
+          "lead_names_ar": "مرام الغنيم",
+          "event_status": "على المسار",
+          "beneficiaries_count": 50
+        }
+      ]
+    },
+    {
+      "project_id": "proj-p1-6",
+      "actor_user_id": "u-abdullah",
+      "submission_status": "submitted",
+      "kpis": [
+        {"kpi_code": "ENABLERS_ACTIVATED", "numeric_value": 12, "denominator_value": 15},
+        {"kpi_code": "ENABLERS_NEW_SERVICES", "numeric_value": 7, "denominator_value": 15},
+        {"kpi_code": "ENABLERS_TRACKS", "numeric_value": 2, "denominator_value": 2},
+        {"kpi_code": "ENABLERS_BENEFITING_SMES", "numeric_value": 118, "denominator_value": 90},
+        {"kpi_code": "ENABLERS_EVENTS", "numeric_value": 27, "denominator_value": 25}
+      ],
+      "achievements": [
+        {"slot_index": 1, "content_ar": "[اختبار] إتمام ورشة الذكاء الاصطناعي في الأعمال مع أرامكو تليد وEY بمشاركة واسعة."},
+        {"slot_index": 2, "content_ar": "[اختبار] عقد الاجتماع التنسيقي مع جمعية ملاك المطاعم والمقاهي لبحث الشراكة."}
+      ],
+      "upcoming_tasks": [
+        {"task_kind": "project_task", "sequence_no": 1, "title_ar": "[اختبار] اعتماد التصور التنفيذي لمسار طموح للمياه."},
+        {"task_kind": "project_task", "sequence_no": 2, "title_ar": "[اختبار] مراجعة الترتيبات النهائية لرحلة المعرفة إلى هولندا."}
+      ]
+    },
+    {
+      "project_id": "proj-int-rel",
+      "actor_user_id": "u-fahad",
+      "submission_status": "submitted",
+      "challenges": [
+        {"challenge_ar": "[اختبار] تعارض مواعيد بعض المنشآت النخبة مع الفعاليات الموسمية خلال نوفمبر."}
+      ]
+    },
+    {
+      "project_id": "proj-int-ai",
+      "actor_user_id": "u-mohammed",
+      "submission_status": "submitted",
+      "project_status": "on_track",
+      "deliverables_override_ar": "تطوير أداة التشخيص الذاتي بالذكاء الاصطناعي\nتحديث أسئلة التشخيص ومواءمتها مع المسارات\nاعتماد آلية ربط الخدمات بالتشخيص\nإطلاق النموذج الأولي لمدير العلاقة الذكي",
+      "challenges": [
+        {"challenge_ar": "تسريع اعتماد نطاق المورد التقني لتحديث أسئلة التشخيص"},
+        {"challenge_ar": "ضمان توافق مخرجات الذكاء الاصطناعي مع سياسات حوكمة البيانات"}
+      ]
+    },
+    {
+      "project_id": "proj-news",
+      "actor_user_id": "u-coord",
+      "submission_status": "approved",
+      "news": [
+        {
+          "slot_index": 1,
+          "body_ar": "[خبر اختباري] اختتام ورشة عمل الذكاء الاصطناعي في الأعمال بالتعاون مع أرامكو تليد وEY بحضور 106 منشآت من برنامج طموح وتوصيات تطبيقية."
+        },
+        {
+          "slot_index": 2,
+          "body_ar": "[خبر اختباري] تفعيل مسار جديد مع الجهات الممكنة لدعم المنشآت متسارعة النمو وتوسيع فرص ربط الأعمال في الربع الرابع 2026."
+        }
+      ],
+      "upcoming_tasks": [
+        {"task_kind": "meeting_action_item", "sequence_no": 1, "title_ar": "اصدار تقرير قياس التشخيص", "owner_label_ar": "الجوهرة", "expected_due_date": "30-11-2026", "weekly_update_ar": "تم استلام النسخة الأولية وجارٍ المراجعة النهائية", "task_status": "جاري"},
+        {"task_kind": "meeting_action_item", "sequence_no": 2, "title_ar": "تطوير خاصية حصر بيانات منشآت طموح عند إضافة الأنشطة والفعاليات", "owner_label_ar": "مرام", "expected_due_date": "25-11-2026", "weekly_update_ar": "تم اعتماد الأولويات التقنية وبدء التنفيذ", "task_status": "مكتمل"},
+        {"task_kind": "meeting_action_item", "sequence_no": 3, "title_ar": "بناء لوحة معلومات لأرقام طموح", "owner_label_ar": "محمد ابوعباه", "expected_due_date": "15-11-2026", "weekly_update_ar": "تم الإغلاق والتسليم", "task_status": "مكتمل"},
+        {"task_kind": "meeting_action_item", "sequence_no": 4, "title_ar": "تنفيذ ورشتي عمل بالتعاون مع غرفتي ينبع ومكة المكرمة", "owner_label_ar": "مشهور", "expected_due_date": "30-11-2026", "weekly_update_ar": "تم التنسيق المبدئي وتحديد المواعيد المقترحة", "task_status": "جاري"},
+        {"task_kind": "meeting_action_item", "sequence_no": 5, "title_ar": "الربط التقني مع شهادة حجم المنشأة", "owner_label_ar": "محمد ابوعباه", "expected_due_date": "05-12-2026", "weekly_update_ar": "جارٍ اختبار واجهة الربط التقني", "task_status": "جاري"},
+        {"task_kind": "meeting_action_item", "sequence_no": 6, "title_ar": "التواصل مع غرفة الرياض لطلب قائمة محدّثة بالمنشآت المرشحة", "owner_label_ar": "مشهور", "expected_due_date": "28-11-2026", "weekly_update_ar": "تم استلام القائمة وبدء الفرز", "task_status": "جاري"},
+        {"task_kind": "meeting_action_item", "sequence_no": 7, "title_ar": "[مهمة اختبارية مضافة ديناميكياً] مراجعة خطة روزنامة الربع الأول 2027", "owner_label_ar": "نورة الضويحي", "expected_due_date": "10-12-2026", "weekly_update_ar": "تمت إضافة الصف ديناميكياً لاختبار مرونة الجدول", "task_status": "جاري"}
+      ]
+    }
+  ],
+  "extra_narratives": {
+    "SMI2_MONTH_LABEL": "أبرز محاور التواصل خلال نوفمبر [اختبار]",
+    "SMI2_AXIS_1": "التواصل بشأن فعالية أربعاء طموح والزيارات الميدانية"
+  }
+}
