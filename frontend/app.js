@@ -125,6 +125,17 @@
     });
   }
 
+  $("btn-password").addEventListener("click", () => {
+    openModal("تغيير كلمة المرور", `<form id="password-form">
+      <div class="form-group"><label class="form-label">كلمة المرور الحالية</label><input class="input" type="password" id="current-password" autocomplete="current-password" required /></div>
+      <div class="form-group"><label class="form-label">كلمة المرور الجديدة (١٢ حرفًا على الأقل)</label><input class="input" type="password" id="new-password" autocomplete="new-password" minlength="12" required /></div>
+      <button type="submit" class="btn btn-primary">حفظ وتسجيل الخروج</button></form>`);
+    $("password-form").onsubmit=async(e)=>{e.preventDefault();try{
+      await api("/api/v1/auth/password",{method:"POST",body:JSON.stringify({current_password:$("current-password").value,new_password:$("new-password").value})});
+      closeModal();state.user=null;state.dirty=false;state.view="login";render();showToast("تم تغيير كلمة المرور. سجل الدخول مجددًا.","success");
+    }catch(err){showToast(err.message,"error");}};
+  });
+
   $("btn-logout").addEventListener("click", async () => {
     try {
       await api("/api/v1/auth/logout", { method: "POST" });
