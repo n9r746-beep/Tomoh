@@ -569,13 +569,13 @@
 
       ${cur.submission?.reviewer_notes_ar ? `<div class="alert alert-warn"><strong>ملاحظة المنسق:</strong> ${escapeHtml(cur.submission.reviewer_notes_ar)}</div>` : ""}
 
-      <div class="editor-layout">
+      <div class="editor-layout slide-editor-layout">
         <div>
-          ${blocksHtml}
+          <div id="editor-inputs">${blocksHtml}</div>
           <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
             <div class="btn-group">
               <button type="button" id="btn-save-draft" class="btn btn-outline" ${editable ? "" : "disabled"}>حفظ كمسودة</button>
-              <button type="button" id="btn-submit-update" class="btn btn-primary" ${editable ? "" : "disabled"}>تسليم التحديث</button>
+              <button type="button" id="btn-submit-update" class="btn btn-primary" ${editable ? "" : "disabled"}>إرسال التحديث</button>
             </div>
             <span class="form-hint">${cur.submission ? `الإصدار الحالي: ${cur.submission.version} • آخر حفظ: ${formatDateShort(cur.submission.updated_at)}` : "لم يتم الحفظ بعد"}</span>
           </div>
@@ -770,6 +770,7 @@
 
     $("btn-save-draft").onclick = () => saveForm("draft");
     $("btn-submit-update").onclick = () => saveForm("submitted");
+    if (window.TomohSlideEditor) await window.TomohSlideEditor.mount({container,data,api,onDirty:()=>{state.dirty=true;},onError:message=>showToast(message,"error")});
   }
 
   function renderActionItemRowInner(seq, it, editable) {

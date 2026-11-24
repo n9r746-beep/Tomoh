@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.api.phase2_routes import phase2_router
 from app.api.phase4_routes import phase4_router
+from app.api.slide_routes import slide_router
 from app.api.routes import router
 from app.config import Settings
 from app.db.database import Database
@@ -140,6 +141,7 @@ def create_app(settings: Optional[Settings] = None) -> FastAPI:
     app.include_router(router)
     app.include_router(phase2_router)
     app.include_router(phase4_router)
+    app.include_router(slide_router)
 
     if cfg.frontend_dir.exists():
         assets_dir = cfg.frontend_dir / "assets"
