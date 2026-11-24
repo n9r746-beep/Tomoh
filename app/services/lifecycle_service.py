@@ -67,11 +67,11 @@ class LifecycleService:
             tasks_by_proj: Dict[str, List[Dict[str, Any]]] = {}
             for t in prev_bundle["upcoming_tasks"]:
                 if t["task_status"] not in ("مكتمل", "ملغي") and t.get("project_id"):
-                    tasks_by_proj.setdefault(t["project_id"], []).append(
+                    tasks_by_proj.setdefault((t["project_id"],t["responsible_user_id"]), []).append(
                         {
                             "task_kind": t["task_kind"],
-                            "sequence_no": t["sequence_no"],
-                            "title_ar": t["title_ar"],
+                            "sequence_no": t.get("contributor_slot",t["sequence_no"]),
+                            "title_ar": t.get("original_text",t["title_ar"]),
                             "owner_label_ar": t.get("owner_label_ar"),
                             "expected_due_date": t.get("expected_due_date"),
                             "weekly_update_ar": None,
@@ -79,11 +79,11 @@ class LifecycleService:
                             "carried_from_id": t["id"],
                         }
                     )
-            for pid, tlist in tasks_by_proj.items():
+            for (pid, contributor_id), tlist in tasks_by_proj.items():
                 self.repo.replace_tasks_for_project_week(
                     reporting_week_id=new_week["id"],
                     project_id=pid,
-                    responsible_user_id=actor_user_id,
+                    responsible_user_id=contributor_id,
                     submission_status="draft",
                     tasks=tlist,
                 )
@@ -92,28 +92,28 @@ class LifecycleService:
             ch_by_proj: Dict[str, List[Dict[str, Any]]] = {}
             for c in prev_bundle["challenges"]:
                 if not c["is_resolved"]:
-                    ch_by_proj.setdefault(c["project_id"], []).append(
+                    ch_by_proj.setdefault((c["project_id"],c["responsible_user_id"]), []).append(
                         {
                             "challenge_ar": c["challenge_ar"],
                             "support_needed_ar": c.get("support_needed_ar"),
                             "is_resolved": False,
                         }
                     )
-            for pid, clist in ch_by_proj.items():
+            for (pid, contributor_id), clist in ch_by_proj.items():
                 self.repo.replace_challenges_for_project_week(
                     reporting_week_id=new_week["id"],
                     project_id=pid,
-                    responsible_user_id=actor_user_id,
+                    responsible_user_id=contributor_id,
                     submission_status="draft",
                     challenges=clist,
                 )
                 carried_summary["unresolved_challenges_carried"] += len(clist)
 
-            for ps in prev_bundle["project_statuses"]:
+            for ps in prev_bundle.get("individual_project_statuses",prev_bundle["project_statuses"]):
                 self.repo.upsert_project_status(
                     reporting_week_id=new_week["id"],
                     project_id=ps["project_id"],
-                    responsible_user_id=actor_user_id,
+                    responsible_user_id=ps["responsible_user_id"],
                     submission_status="draft",
                     status_code=ps["status_code"],
                     progress_note_ar=ps.get("progress_note_ar"),
@@ -121,13 +121,13 @@ class LifecycleService:
                 )
                 carried_summary["project_statuses_carried"] += 1
 
-            for kv in prev_bundle["kpis"]:
+            for kv in prev_bundle.get("individual_kpis",prev_bundle["kpis"]):
                 if kv["aggregation_type"] in ("ytd_cumulative", "all_time_cumulative", "annual_target", "ratio", "percentage"):
                     self.repo.upsert_kpi_value(
                         reporting_week_id=new_week["id"],
                         project_id=kv.get("project_id"),
                         kpi_definition_id=kv["kpi_definition_id"],
-                        responsible_user_id=actor_user_id,
+                        responsible_user_id=kv["responsible_user_id"],
                         submission_status="draft",
                         numeric_value=kv["numeric_value"],
                         denominator_value=kv.get("denominator_value"),
@@ -144,6 +144,9 @@ class LifecycleService:
         actor_user_id: str,
         uploads_dir: Optional[Path] = None,
     ) -> Dict[str, Any]:
+        actor = self.repo.get_user(actor_user_id)
+        if payload.submission_status == "approved" and (not actor or actor["role"] not in ("coordinator", "admin")):
+            raise ValueError("الاعتماد من صلاحيات منسق الاجتماع فقط.")
         week = self.repo.get_reporting_week(reporting_week_id)
         if not week:
             raise KeyError(f"Reporting week '{reporting_week_id}' not found")
@@ -190,7 +193,7 @@ class LifecycleService:
 
         manually_supplied_codes = {k.kpi_code for k in payload.kpis}
         all_defs = self.repo.list_kpi_definitions()
-        existing_week_kpis = {kv["kpi_code"]: kv for kv in self.repo.list_kpi_values_for_week(reporting_week_id)}
+        existing_week_kpis = {kv["kpi_code"]: kv for kv in self.repo.list_kpi_values_for_week(reporting_week_id) if kv["responsible_user_id"] == actor_user_id}
         for kd in all_defs:
             src_code = kd.get("auto_accumulate_from")
             if (
@@ -211,6 +214,7 @@ class LifecycleService:
                         is_unchanged=False,
                     )
 
+        self.repo.db.execute("DELETE FROM achievements WHERE reporting_week_id=? AND project_id=? AND responsible_user_id=?", (reporting_week_id,payload.project_id,actor_user_id))
         for ach in payload.achievements:
             self.repo.upsert_achievement(
                 reporting_week_id=reporting_week_id,
@@ -221,7 +225,7 @@ class LifecycleService:
                 content_ar=ach.content_ar,
             )
 
-        if payload.upcoming_tasks:
+        if True:
             self.repo.replace_tasks_for_project_week(
                 reporting_week_id=reporting_week_id,
                 project_id=payload.project_id,
@@ -230,7 +234,7 @@ class LifecycleService:
                 tasks=[t.dict() for t in payload.upcoming_tasks],
             )
 
-        if payload.challenges:
+        if True:
             self.repo.replace_challenges_for_project_week(
                 reporting_week_id=reporting_week_id,
                 project_id=payload.project_id,
@@ -250,6 +254,7 @@ class LifecycleService:
                 deliverables_override_ar=payload.deliverables_override_ar,
             )
 
+        self.repo.db.execute("DELETE FROM events WHERE reporting_week_id=? AND project_id=? AND responsible_user_id=?",(reporting_week_id,payload.project_id,actor_user_id))
         for ev in payload.events:
             self.repo.upsert_event(
                 reporting_week_id=reporting_week_id,
@@ -264,6 +269,7 @@ class LifecycleService:
                 beneficiaries_count=ev.beneficiaries_count,
             )
 
+        self.repo.db.execute("DELETE FROM news WHERE reporting_week_id=? AND project_id=? AND responsible_user_id=?",(reporting_week_id,payload.project_id,actor_user_id))
         for nw in payload.news:
             att_id = None
             safe_img = validated_news_paths.get(nw.slot_index)

@@ -25,6 +25,8 @@ def run_migrations(db: Database, migrations_dir: Path) -> List[str]:
         ("001_initial_schema", schema_file),
         ("002_seed_tomoh_master", seed_file),
         ("003_phase2_webapp_features", phase2_file),
+        ("005_multi_user", migrations_dir / ("005_multi_user_sqlite.sql" if db.dialect == "sqlite" else "005_multi_user.sql")),
+        ("006_kpi_approval_sources", migrations_dir / ("006_kpi_approval_sources_sqlite.sql" if db.dialect == "sqlite" else "006_kpi_approval_sources.sql")),
     ]
 
     applied_now: List[str] = []

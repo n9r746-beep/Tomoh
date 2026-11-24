@@ -15,18 +15,26 @@ def overflow_entries(registry, bundle, fields):
     mappings={m.field_key:m for m in registry.mappings}
     groups=defaultdict(list)
     titles={p['project_code']:p['title_ar'] for p in bundle.get('projects',[])}
-    for kind,items,index,text in [('achievement',bundle.get('achievements',[]),'slot_index','content_ar'),('task',[t for t in bundle.get('upcoming_tasks',[]) if t['task_kind']=='project_task'],'sequence_no','title_ar')]:
+    for kind,items,index,text in [('achievement',bundle.get('achievements',[]),'slot_index','content_ar'),('task',[t for t in bundle.get('upcoming_tasks',[]) if t['task_kind']=='project_task'],'sequence_no','title_ar'),('news',bundle.get('news',[]),'slot_index','body_ar')]:
         for item in sorted(items,key=lambda x:(x['project_code'],x[index])):
-            key=f"{kind}.{item['project_code']}.{item[index]}"
+            key=f"news.ITEM_{item[index]}" if kind=="news" else f"{kind}.{item['project_code']}.{item[index]}"
             m=mappings.get(key)
             if m and len(item[text]) <= m.validation.get('max_chars',100000):
                 continue
             # An empty string clears a mapped placeholder instead of leaving stale template text.
             if m:
                 fields[key]='التفاصيل في شريحة المتابعة'
-            related=[x.slide_number for x in registry.mappings if x.field_key.startswith(f"{kind}.{item['project_code']}.")]
+            related=[x.slide_number for x in registry.mappings if x.field_key.startswith('news.ITEM_' if kind=='news' else f"{kind}.{item['project_code']}.")]
             anchor=min(related) if related else None
+            if anchor is None:
+                import json
+                project=next((p for p in bundle.get('projects',[]) if p['project_code']==item['project_code']),{})
+                slides=json.loads(project.get('section_config_json') or '{}').get('slides',[])
+                anchor=max(slides) if slides else None
             groups[(anchor,item['project_code'],kind)].append((item[index],item[text]))
+    for task in bundle.get('upcoming_tasks',[]):
+        if task['task_kind']=='meeting_action_item' and task['sequence_no']>8:
+            groups[(40,task['project_code'],'task')].append((task['sequence_no'],task['title_ar']+(' — '+task['weekly_update_ar'] if task.get('weekly_update_ar') else '')))
     return [(anchor,titles.get(code,code),kind,items) for (anchor,code,kind),items in groups.items()]
 
 def _sub(parent,ns,tag,**attrs):
@@ -51,7 +59,7 @@ def _slide(width,height,title,kind,items,page):
     for tag,attrs in [('off',{'x':0,'y':0}),('ext',{'cx':0,'cy':0}),('chOff',{'x':0,'y':0}),('chExt',{'cx':0,'cy':0})]:_sub(xf,A,tag,**attrs)
     margin=width//16
     _textbox(tree,2,'Continuation heading',margin,height//16,width-2*margin,height//6,[title+' — تابع'],2600,'007094',True)
-    label='إنجازات الأسبوع الماضي' if kind=='achievement' else 'مهام الأسبوع القادم'
+    label={'achievement':'إنجازات الأسبوع الماضي','task':'مهام الأسبوع القادم','news':'أخبار وتحديثات'}.get(kind,'التحديثات')
     _textbox(tree,3,'Section heading',margin,height//4,width-2*margin,height//10,[label],2100,'007094',True)
     _textbox(tree,4,'Additional entries',margin,height*36//100,width-2*margin,height*52//100,[f'{i}. {text}' for i,text in items],1800)
     _textbox(tree,5,'Page footer',margin,height*92//100,width-2*margin,height//16,[f'طموح | متابعة {page}'],1000,'637381')

@@ -807,13 +807,13 @@
           ${escapeHtml(m.title_ar)}
           <div class="form-hint">شرائح: ${m.slides.join("، ") || "—"}</div>
         </td>
-        <td><span class="badge badge-${escapeHtml(m.status)}">${escapeHtml(m.status_ar)}</span></td>
+        <td><span class="badge badge-${escapeHtml(m.status)}">${escapeHtml(m.status_ar)}</span><div class="form-hint">${(m.contributors || []).map(c => `${escapeHtml(c.full_name_ar)}: ${escapeHtml(({not_started:"لم يحدث",draft:"مسودة",submitted:"تم التسليم",approved:"معتمد",changes_requested:"طلب تعديل"})[c.status] || c.status)}`).join("<br>")}</div></td>
         <td>${formatDateShort(m.last_updated)}</td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-outline btn-sm btn-coord-open" data-pid="${escapeHtml(m.project_id)}">فتح</button>
             ${
-              m.status === "submitted" || m.status === "changes_requested"
+              m.status === "submitted" || m.status === "changes_requested" || m.status === "draft"
                 ? `<button type="button" class="btn btn-success btn-sm btn-coord-approve" data-pid="${escapeHtml(m.project_id)}">اعتماد</button>`
                 : ""
             }
@@ -957,21 +957,23 @@
       };
     }
 
-    container.querySelectorAll(".btn-coord-open").forEach((btn) => {
-      btn.onclick = () =>
-        navigate("project_editor", { weekId: wk.id, projectId: btn.dataset.pid, returnView: "coord_dashboard" });
-    });
-
-    container.querySelectorAll(".btn-coord-approve").forEach((btn) => {
-      btn.onclick = async () => {
-        await api(`/api/v1/weeks/${wk.id}/submissions/${btn.dataset.pid}/review`, {
-          method: "POST",
-          body: JSON.stringify({ status: "approved", reviewer_notes_ar: null }),
-        });
-        showToast("تم اعتماد مراجعة القسم", "success");
-        render();
-      };
-    });
+    async function openContributions(projectId, approve) {
+      const review = await api(`/api/v1/weeks/${wk.id}/projects/${projectId}/contributions`);
+      const cards = review.contributors.map(c => {
+        const d=c.detail;
+        const entries=[...(d.achievements||[]).map(a=>"إنجاز: "+a.content_ar),...(d.upcoming_tasks||[]).map(t=>"مهمة: "+t.title_ar),...(d.challenges||[]).map(t=>"تحدي: "+t.challenge_ar),...(d.kpis||[]).map(k=>k.label_ar+": "+(k.numeric_value??"لم يحدد")),...(d.news||[]).map(n=>n.body_ar),...(d.events||[]).map(n=>n.title_ar),...(d.project_status?["حالة المشروع: "+(({on_track:"وفق المخطط",delayed:"متأخر",critically_delayed:"متأخر جدًا",on_hold:"معلق",completed:"مكتمل",not_started:"لم يبدأ"})[d.project_status.status_code]||d.project_status.status_code),d.project_status.progress_note_ar,d.project_status.deliverables_override_ar].filter(Boolean):[])];
+        return `<div class="ref-box"><h3>${escapeHtml(c.full_name_ar)}</h3><div class="form-hint">${escapeHtml(({not_started:"لم يحفظ تحديثًا",draft:"حفظ مسودة",submitted:"تم التسليم",approved:"معتمد",changes_requested:"طلب تعديل"})[c.status]||c.status)}</div><ul>${entries.map(x=>`<li style="white-space:pre-wrap">${escapeHtml(x)}</li>`).join("")}</ul></div>`;
+      }).join("");
+      const conflicts=review.kpi_conflicts||[];
+      const choose=conflicts.length?'<div class="alert alert-warn">توجد أرقام مختلفة. اختر مصدر الرقم لكل مؤشر؛ تبقى تحديثات جميع الموظفين محفوظة.</div>'+conflicts.map(c=>`<div class="form-group"><label class="form-label">${escapeHtml(c.label_ar)}</label><select class="select kpi-source-choice" data-code="${escapeHtml(c.kpi_code)}"><option value="">اختر الرقم المعتمد</option>${c.contributors.map(u=>`<option value="${escapeHtml(u.user_id)}">${escapeHtml(u.name)}: ${u.value}${u.denominator ? '/'+u.denominator : ''}</option>`).join("")}</select></div>`).join(""):"";
+      openModal(review.project.title_ar+" — تحديثات المسؤولين", cards+choose+(approve?'<button id="confirm-section-approval" class="btn btn-success" type="button">اعتماد جميع تحديثات القسم</button><p class="form-hint">بعد الاعتماد تتوقف التعديلات حتى يعيد المنسق فتح القسم.</p>':""));
+      if(approve)$("confirm-section-approval").onclick=async()=>{try{
+        await api(`/api/v1/weeks/${wk.id}/submissions/${projectId}/review`,{method:"POST",body:JSON.stringify({status:"approved",reviewer_notes_ar:null,expected_versions:review.expected_versions,kpi_sources:Object.fromEntries(Array.from(document.querySelectorAll(".kpi-source-choice")).map(el=>[el.dataset.code,el.value]))})});
+        closeModal();showToast("تم اعتماد تحديثات جميع المسؤولين.","success");render();
+      }catch(err){showToast(err.message,"error");}};
+    }
+    container.querySelectorAll(".btn-coord-open").forEach(btn=>{btn.onclick=()=>openContributions(btn.dataset.pid,false);});
+    container.querySelectorAll(".btn-coord-approve").forEach(btn=>{btn.onclick=()=>openContributions(btn.dataset.pid,true);});
 
     container.querySelectorAll(".btn-coord-revise").forEach((btn) => {
       btn.onclick = () => {
@@ -1155,15 +1157,14 @@
   async function renderCoordinatorSettings(container) {
     const [projRes, usersRes] = await Promise.all([api("/api/v1/projects"), api("/api/v1/admin/users")]);
     const users = usersRes.users;
+    const membership = Object.fromEntries(await Promise.all(projRes.projects.map(async p => [p.id,(await api(`/api/v1/projects/${p.id}/members`)).members])));
     const rows = projRes.projects
       .map(
         (p) => `
       <tr>
         <td><strong>${escapeHtml(p.title_ar)}</strong><div class="form-hint">${escapeHtml(p.project_code)}</div></td>
         <td>
-          <select class="select set-owner" data-pid="${escapeHtml(p.id)}">
-            ${users.map((u) => `<option value="${escapeHtml(u.id)}" ${p.owner_user_id === u.id ? "selected" : ""}>${escapeHtml(u.full_name_ar)}</option>`).join("")}
-          </select>
+          <div class="set-owners" data-pid="${escapeHtml(p.id)}">${users.map(u=>`<label style="display:block;padding:4px"><input type="checkbox" value="${escapeHtml(u.id)}" ${p.owner_user_id===u.id || (membership[p.id]||[]).some(m=>m.user_id===u.id && m.member_role!=="viewer")?"checked":""}> ${escapeHtml(u.full_name_ar)}</label>`).join("")}</div>
         </td>
         <td>
           <label style="display:flex;align-items:center;gap:6px;">
@@ -1210,14 +1211,17 @@
 
     container.querySelectorAll(".btn-save-proj-set").forEach((btn) => {
       btn.onclick = async () => {
+        try {
         const pid = btn.dataset.pid;
-        const owner = container.querySelector(`.set-owner[data-pid="${pid}"]`).value;
+        const owners = Array.from(container.querySelectorAll(`.set-owners[data-pid="${pid}"] input:checked`)).map(o=>o.value);
         const enabled = container.querySelector(`.set-enabled[data-pid="${pid}"]`).checked;
+        await api(`/api/v1/projects/${pid}/contributors`, {method:"PUT",body:JSON.stringify({user_ids:owners})});
         await api(`/api/v1/projects/${pid}`, {
           method: "PATCH",
-          body: JSON.stringify({ owner_user_id: owner, is_enabled: enabled }),
+          body: JSON.stringify({ is_enabled: enabled }),
         });
         showToast("تم حفظ إعدادات القسم والتكليف", "success");
+        } catch(err) { showToast(err.message,"error"); }
       };
     });
   }

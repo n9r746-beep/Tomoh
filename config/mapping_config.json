@@ -46,7 +46,10 @@
       "field_key": "metadata.report_title_ar",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"required": true, "max_chars": 80},
+      "validation": {
+        "required": true,
+        "max_chars": 80
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -56,7 +59,10 @@
       "field_key": "kpi.SMI_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 8},
+      "validation": {
+        "min": 0,
+        "max_chars": 8
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -66,7 +72,10 @@
       "field_key": "kpi.SMI_CUMULATIVE_2026",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 8},
+      "validation": {
+        "min": 0,
+        "max_chars": 8
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -76,7 +85,10 @@
       "field_key": "kpi.SMI1_CUMULATIVE_TOTAL",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 8},
+      "validation": {
+        "min": 0,
+        "max_chars": 8
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -86,7 +98,11 @@
       "field_key": "kpi.SMI1_COMPLETION_PCT",
       "data_type": "percentage",
       "format_rule": "percent_prefix",
-      "validation": {"min": 0, "max": 100, "max_chars": 6},
+      "validation": {
+        "min": 0,
+        "max": 100,
+        "max_chars": 6
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -96,7 +112,10 @@
       "field_key": "kpi.REG_COMPANIES_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 8},
+      "validation": {
+        "min": 0,
+        "max_chars": 8
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -106,7 +125,10 @@
       "field_key": "kpi.REG_COMPANIES_2026",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 8},
+      "validation": {
+        "min": 0,
+        "max_chars": 8
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -116,7 +138,10 @@
       "field_key": "kpi.REG_COMPANIES_ALL_TIME",
       "data_type": "integer",
       "format_rule": "comma_int",
-      "validation": {"min": 0, "max_chars": 10},
+      "validation": {
+        "min": 0,
+        "max_chars": 10
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -126,7 +151,10 @@
       "field_key": "kpi.REG_COMPANIES_TARGET_2026",
       "data_type": "integer",
       "format_rule": "prefix:المستهدف: ",
-      "validation": {"min": 0, "max_chars": 24},
+      "validation": {
+        "min": 0,
+        "max_chars": 24
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -136,7 +164,10 @@
       "field_key": "kpi.DIAGNOSTIC_REPORTS_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 8},
+      "validation": {
+        "min": 0,
+        "max_chars": 8
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -146,7 +177,10 @@
       "field_key": "kpi.DIAGNOSTIC_REPORTS_2026",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 8},
+      "validation": {
+        "min": 0,
+        "max_chars": 8
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -156,7 +190,10 @@
       "field_key": "kpi.DIAGNOSTIC_REPORTS_ALL_TIME",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 10},
+      "validation": {
+        "min": 0,
+        "max_chars": 10
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -166,7 +203,10 @@
       "field_key": "kpi.BENEFICIARIES_UPDATED",
       "data_type": "integer",
       "format_rule": "comma_int",
-      "validation": {"min": 0, "max_chars": 10},
+      "validation": {
+        "min": 0,
+        "max_chars": 10
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -176,7 +216,10 @@
       "field_key": "kpi.SMI1_RM_FAHAD_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 6},
+      "validation": {
+        "min": 0,
+        "max_chars": 6
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -186,7 +229,10 @@
       "field_key": "kpi.SMI1_RM_MOHAMMED_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 6},
+      "validation": {
+        "min": 0,
+        "max_chars": 6
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -196,7 +242,10 @@
       "field_key": "kpi.SMI1_RM_FAISAL_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 6},
+      "validation": {
+        "min": 0,
+        "max_chars": 6
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -206,7 +255,10 @@
       "field_key": "kpi.SMI1_RM_KHALID_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 6},
+      "validation": {
+        "min": 0,
+        "max_chars": 6
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -216,7 +268,10 @@
       "field_key": "kpi.SMI1_RM_TOTAL_WEEKLY",
       "data_type": "integer",
       "format_rule": "int",
-      "validation": {"min": 0, "max_chars": 6},
+      "validation": {
+        "min": 0,
+        "max_chars": 6
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -226,7 +281,9 @@
       "field_key": "narrative.SMI2_MONTH_LABEL",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 60},
+      "validation": {
+        "max_chars": 60
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -236,7 +293,9 @@
       "field_key": "narrative.SMI2_AXIS_1",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 100},
+      "validation": {
+        "max_chars": 100
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -246,7 +305,9 @@
       "field_key": "achievement.P1_3.1",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 160},
+      "validation": {
+        "max_chars": 160
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -256,7 +317,9 @@
       "field_key": "achievement.P1_3.2",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 180},
+      "validation": {
+        "max_chars": 180
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -266,7 +329,9 @@
       "field_key": "achievement.P1_3.3",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 160},
+      "validation": {
+        "max_chars": 160
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -276,7 +341,9 @@
       "field_key": "task.P1_3.1",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 140},
+      "validation": {
+        "max_chars": 140
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -288,7 +355,9 @@
       "field_key": "event.CAL_2026_DEC_1",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 140},
+      "validation": {
+        "max_chars": 140
+      },
       "fallback_behavior": "preserve_template",
       "resizable": false
     },
@@ -301,7 +370,9 @@
       "field_key": "event.CAL_2026_DEC_2",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 140},
+      "validation": {
+        "max_chars": 140
+      },
       "fallback_behavior": "preserve_template",
       "resizable": false
     },
@@ -312,7 +383,9 @@
       "field_key": "kpi.ENABLERS_ACTIVATED",
       "data_type": "ratio",
       "format_rule": "ratio",
-      "validation": {"max_chars": 12},
+      "validation": {
+        "max_chars": 12
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -322,7 +395,9 @@
       "field_key": "kpi.ENABLERS_NEW_SERVICES",
       "data_type": "ratio",
       "format_rule": "ratio",
-      "validation": {"max_chars": 12},
+      "validation": {
+        "max_chars": 12
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -332,7 +407,9 @@
       "field_key": "kpi.ENABLERS_TRACKS",
       "data_type": "ratio",
       "format_rule": "ratio",
-      "validation": {"max_chars": 12},
+      "validation": {
+        "max_chars": 12
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -342,7 +419,9 @@
       "field_key": "kpi.ENABLERS_BENEFITING_SMES",
       "data_type": "ratio",
       "format_rule": "ratio",
-      "validation": {"max_chars": 12},
+      "validation": {
+        "max_chars": 12
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -352,7 +431,9 @@
       "field_key": "kpi.ENABLERS_EVENTS",
       "data_type": "ratio",
       "format_rule": "ratio",
-      "validation": {"max_chars": 12},
+      "validation": {
+        "max_chars": 12
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -362,7 +443,9 @@
       "field_key": "achievement.P1_6.1",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 150},
+      "validation": {
+        "max_chars": 150
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -372,7 +455,9 @@
       "field_key": "achievement.P1_6.2",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 150},
+      "validation": {
+        "max_chars": 150
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -382,7 +467,9 @@
       "field_key": "task.P1_6.1",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 150},
+      "validation": {
+        "max_chars": 150
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -392,7 +479,9 @@
       "field_key": "task.P1_6.2",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 150},
+      "validation": {
+        "max_chars": 150
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -402,7 +491,9 @@
       "field_key": "challenge.INT_RELATIONSHIP",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 180},
+      "validation": {
+        "max_chars": 180
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -414,7 +505,16 @@
       "field_key": "status.INT_AI_DIAGNOSTIC",
       "data_type": "project_status",
       "format_rule": "status_badge",
-      "validation": {"enum": ["on_track", "delayed", "critically_delayed", "on_hold", "completed", "not_started"]},
+      "validation": {
+        "enum": [
+          "on_track",
+          "delayed",
+          "critically_delayed",
+          "on_hold",
+          "completed",
+          "not_started"
+        ]
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -424,7 +524,9 @@
       "field_key": "challenge.INT_AI_DIAGNOSTIC",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 190},
+      "validation": {
+        "max_chars": 190
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -434,7 +536,9 @@
       "field_key": "deliverables.INT_AI_DIAGNOSTIC",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 260},
+      "validation": {
+        "max_chars": 260
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -444,7 +548,9 @@
       "field_key": "news.ITEM_1",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 240},
+      "validation": {
+        "max_chars": 240
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -454,7 +560,9 @@
       "field_key": "news.ITEM_2",
       "data_type": "string",
       "format_rule": "raw",
-      "validation": {"max_chars": 240},
+      "validation": {
+        "max_chars": 240
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -464,7 +572,12 @@
       "field_key": "news.IMAGE_1",
       "data_type": "image_path",
       "format_rule": "center_crop_preserve_aspect",
-      "validation": {"allowed_mimes": ["image/png", "image/jpeg"]},
+      "validation": {
+        "allowed_mimes": [
+          "image/png",
+          "image/jpeg"
+        ]
+      },
       "fallback_behavior": "preserve_template"
     },
     {
@@ -474,10 +587,117 @@
       "field_key": "action_items.ACTIVE_MEETING",
       "data_type": "table_rows",
       "format_rule": "action_items_6col",
-      "validation": {"min_rows": 1, "max_rows": 8, "max_cell_chars": 120},
+      "validation": {
+        "min_rows": 1,
+        "max_rows": 8,
+        "max_cell_chars": 120
+      },
       "fallback_behavior": "preserve_template",
       "resizable": true,
-      "columns": ["status", "weekly_update", "expected_due_date", "owner_label", "title_ar", "sequence_no"]
+      "columns": [
+        "status",
+        "weekly_update",
+        "expected_due_date",
+        "owner_label",
+        "title_ar",
+        "sequence_no"
+      ]
+    },
+    {
+      "slide_number": 12,
+      "object_type": "shape",
+      "object_id": "206",
+      "field_key": "kpi.REG_COMPANIES_2026",
+      "data_type": "number",
+      "format_rule": "int",
+      "validation": {
+        "min": 0
+      },
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 12,
+      "object_type": "shape",
+      "object_id": "198",
+      "field_key": "kpi.REG_COMPANIES_TARGET_2026",
+      "data_type": "number",
+      "format_rule": "int",
+      "validation": {
+        "min": 0
+      },
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 13,
+      "object_type": "shape",
+      "object_id": "3",
+      "field_key": "kpi.ATTRACTION_DIRECT_WEEKLY",
+      "data_type": "number",
+      "format_rule": "int",
+      "validation": {
+        "min": 0
+      },
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 13,
+      "object_type": "shape",
+      "object_id": "8",
+      "field_key": "kpi.ATTRACTION_EMAIL_WEEKLY",
+      "data_type": "number",
+      "format_rule": "int",
+      "validation": {
+        "min": 0
+      },
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 13,
+      "object_type": "shape",
+      "object_id": "43",
+      "field_key": "kpi.ATTRACTION_SMS1_WEEKLY",
+      "data_type": "number",
+      "format_rule": "int",
+      "validation": {
+        "min": 0
+      },
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 13,
+      "object_type": "shape",
+      "object_id": "44",
+      "field_key": "kpi.ATTRACTION_SMS2_WEEKLY",
+      "data_type": "number",
+      "format_rule": "int",
+      "validation": {
+        "min": 0
+      },
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 13,
+      "object_type": "shape",
+      "object_id": "64",
+      "field_key": "kpi.ATTRACTION_CUSTOMER_CONTACTS_WEEKLY",
+      "data_type": "number",
+      "format_rule": "int",
+      "validation": {
+        "min": 0
+      },
+      "fallback_behavior": "preserve_template"
+    },
+    {
+      "slide_number": 13,
+      "object_type": "shape",
+      "object_id": "82",
+      "field_key": "achievement.P1_1.1",
+      "data_type": "string",
+      "format_rule": "raw",
+      "validation": {
+        "max_chars": 150
+      },
+      "fallback_behavior": "preserve_template"
     }
   ]
 }

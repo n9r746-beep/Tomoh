@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from app.config import Settings
+from app.collaboration import atomic_report
 from app.db.repository import TomohRepository
 from app.engine.mapping import MappingRegistry
 from app.engine.ooxml_editor import PowerPointEngine
@@ -70,6 +71,7 @@ class ReportService:
             "mapped_fields": mapped_preview,
         }
 
+    @atomic_report
     def generate_weekly_pptx(
         self,
         *,
@@ -87,6 +89,8 @@ class ReportService:
             )
 
         try:
+            from app.collaboration import require_approved_contributions
+            require_approved_contributions(self.repo,reporting_week_id)
             bundle = self.repo.get_week_bundle(reporting_week_id)
             if extra_narratives:
                 bundle["narratives"] = extra_narratives

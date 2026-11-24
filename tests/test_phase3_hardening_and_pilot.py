@@ -307,7 +307,7 @@ class TomohPhase3HardeningAndPilotTests(unittest.TestCase):
         self.assertEqual(res["generation"]["status"], "succeeded")
         self.assertTrue(res["validation"]["structural"]["passed"])
         self.assertEqual(res["validation"]["engine"]["operations_failed"], 0)
-        self.assertEqual(res["validation"]["structural"]["zip_identical_parts"], 410)
+        self.assertEqual(res["validation"]["structural"]["zip_identical_parts"], 408)
         self.assertTrue(pilot_out.exists())
 
 

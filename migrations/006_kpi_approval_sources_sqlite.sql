@@ -1,0 +1,1 @@
+ALTER TABLE project_approvals ADD COLUMN kpi_sources_json TEXT;

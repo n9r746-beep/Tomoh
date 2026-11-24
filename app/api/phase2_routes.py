@@ -19,6 +19,8 @@ from typing import Any, Dict, List, Literal, Optional
 from fastapi import APIRouter, Cookie, Depends, File, HTTPException, Request, Response, UploadFile, status
 from pydantic import BaseModel, Field
 
+from app.collaboration import section_state, participants
+
 from app.auth import (
     AuthenticatedUser,
     get_current_user,
@@ -44,6 +46,9 @@ class LoginRequest(BaseModel):
 
 
 class ReviewRequest(BaseModel):
+    kpi_source_user_id: Optional[str] = None
+    kpi_sources: Optional[Dict[str,str]] = None
+    expected_versions: Optional[Dict[str, int]] = None
     status: Literal["approved", "changes_requested"]
     reviewer_notes_ar: Optional[str] = Field(default=None, max_length=500)
 
@@ -68,7 +73,10 @@ def _parse_section_config(proj: Dict[str, Any]) -> Dict[str, Any]:
     if not raw:
         return {"slides": [], "inputs": ["achievements", "upcoming_tasks"], "required": []}
     try:
-        return json.loads(raw)
+        config = json.loads(raw)
+        if proj.get("project_code") == "PLATFORM_KPI":
+            config["kpi_codes"] = [code for code in config.get("kpi_codes", []) if not code.startswith("REG_COMPANIES_")]
+        return config
     except Exception:
         return {"slides": [], "inputs": ["achievements", "upcoming_tasks"], "required": []}
 
@@ -172,7 +180,7 @@ def employee_dashboard(
     wk = repo.get_reporting_week(week_id) if week_id else repo.get_current_reporting_week()
     projects = repo.list_assigned_projects(user.id, include_all=(user.role in ("coordinator", "admin")))
     subs_by_proj = (
-        {s["project_id"]: s for s in repo.list_submissions_for_week(wk["id"])} if wk else {}
+        {s["project_id"]: s for s in repo.list_submissions_for_week(wk["id"]) if s["submitted_by"] == user.id} if wk else {}
     )
     cards = []
     for p in projects:
@@ -225,9 +233,9 @@ def get_project_editor_data(
         if not cfg.get("kpi_codes") or d["kpi_code"] in cfg["kpi_codes"]
     ] if "kpis" in cfg.get("inputs", []) else []
 
-    current_detail = repo.get_project_week_detail(week_id, project_id)
+    current_detail = repo.get_project_week_detail(week_id, project_id, user.id)
     prev_wk = repo.get_previous_week(wk["week_number"])
-    prev_detail = repo.get_project_week_detail(prev_wk["id"], project_id) if prev_wk else None
+    prev_detail = repo.get_project_week_detail(prev_wk["id"], project_id, user.id) if prev_wk else None
 
     return {
         "reporting_week": wk,
@@ -236,7 +244,7 @@ def get_project_editor_data(
         "current": current_detail,
         "previous_week": prev_wk,
         "previous": prev_detail,
-        "editable": wk["status"] not in ("locked", "archived"),
+        "editable": wk["status"] not in ("locked", "archived") and not repo.db.fetch_one("SELECT id FROM project_approvals WHERE reporting_week_id=? AND project_id=?", (week_id,project_id)),
         "ai_assistant_enabled": request.app.state.settings.ai_assistant_enabled,
     }
 
@@ -254,7 +262,7 @@ def coordinator_dashboard(
     projects = repo.list_projects()
     users_by_id = {u["id"]: u for u in repo.list_users()}
     subs_by_proj = (
-        {s["project_id"]: s for s in repo.list_submissions_for_week(wk["id"])} if wk else {}
+        {s["project_id"]: s for s in repo.list_submissions_for_week(wk["id"]) if s["submitted_by"] == user.id} if wk else {}
     )
 
     matrix = []
@@ -262,8 +270,9 @@ def coordinator_dashboard(
     enabled_projects = [p for p in projects if p.get("is_enabled", 1)]
 
     for p in enabled_projects:
-        sub = subs_by_proj.get(p["id"])
-        st = sub["status"] if sub else "not_started"
+        collaboration = section_state(repo,wk["id"],p) if wk else {"status":"not_started","contributors":[],"submissions":[]}
+        sub = max(collaboration["submissions"],key=lambda r:r["updated_at"],default=None)
+        st = collaboration["status"]
         counts[st] = counts.get(st, 0) + 1
         owner = users_by_id.get(p.get("owner_user_id") or "")
         members = repo.list_project_members(p["id"])
@@ -272,7 +281,8 @@ def coordinator_dashboard(
                 "project_id": p["id"],
                 "project_code": p["project_code"],
                 "title_ar": p["title_ar"],
-                "owner_name_ar": owner["full_name_ar"] if owner else "غير محدد",
+                "owner_name_ar": "، ".join(c["full_name_ar"] for c in collaboration["contributors"]) or (owner["full_name_ar"] if owner else "لم يحدد"),
+                "contributors": collaboration["contributors"],
                 "owner_user_id": p.get("owner_user_id"),
                 "members": [{"user_id": m["user_id"], "full_name_ar": m["full_name_ar"], "member_role": m["member_role"]} for m in members],
                 "status": st,
@@ -325,8 +335,13 @@ def review_project_submission(
             status=payload.status,
             reviewer_notes_ar=payload.reviewer_notes_ar,
             reviewer_user_id=user.id,
+            kpi_source_user_id=payload.kpi_source_user_id,
+            expected_versions=payload.expected_versions,
+            kpi_sources=payload.kpi_sources,
         )
         return {"submission": updated, "status_ar": STATUS_AR_MAP.get(updated["status"], updated["status"])}
+    except ValueError as exc:
+        raise HTTPException(status_code=409,detail={"code":"REVIEW_CONFLICT","message":str(exc)})
     except KeyError as exc:
         raise HTTPException(status_code=404, detail={"code": "NOT_FOUND", "message": str(exc)})
 

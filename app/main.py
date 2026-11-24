@@ -23,6 +23,8 @@ from app.services.lifecycle_service import LifecycleService
 from app.services.report_service import ReportService
 
 attach_phase2_methods(TomohRepository)
+from app.collaboration import attach_collaboration
+attach_collaboration(TomohRepository, LifecycleService)
 
 
 def create_app(settings: Optional[Settings] = None) -> FastAPI:
@@ -46,6 +48,8 @@ def create_app(settings: Optional[Settings] = None) -> FastAPI:
 
     def _generate_with_snapshot(*args, **kwargs):
         res = orig_generate(*args, **kwargs)
+        if res.pop("_snapshot_saved", False):
+            return res
         wk_id = kwargs.get("reporting_week_id") or (args[0] if args else None)
         if wk_id and res.get("generation", {}).get("id"):
             snapshot = repo.get_week_bundle(wk_id)

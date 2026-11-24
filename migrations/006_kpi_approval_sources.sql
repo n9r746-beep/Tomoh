@@ -1,0 +1,1 @@
+ALTER TABLE public.project_approvals ADD COLUMN IF NOT EXISTS kpi_sources_json TEXT;

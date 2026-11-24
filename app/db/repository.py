@@ -235,8 +235,8 @@ class TomohRepository:
     ) -> Dict[str, Any]:
         now = _now_iso()
         existing = self.db.fetch_one(
-            "SELECT * FROM kpi_values WHERE reporting_week_id = ? AND kpi_definition_id = ?",
-            (reporting_week_id, kpi_definition_id),
+            "SELECT * FROM kpi_values WHERE reporting_week_id = ? AND kpi_definition_id = ? AND responsible_user_id = ?",
+            (reporting_week_id, kpi_definition_id, responsible_user_id),
         )
         if existing:
             self.db.execute(
@@ -305,11 +305,13 @@ class TomohRepository:
         )
 
     # --- Submissions & Weekly Entities ---
-    def get_submission(self, reporting_week_id: str, project_id: str) -> Optional[Dict[str, Any]]:
-        return self.db.fetch_one(
-            "SELECT * FROM weekly_submissions WHERE reporting_week_id = ? AND project_id = ?",
-            (reporting_week_id, project_id),
-        )
+    def get_submission(self, reporting_week_id: str, project_id: str, submitted_by: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        sql = "SELECT * FROM weekly_submissions WHERE reporting_week_id = ? AND project_id = ?"
+        params = (reporting_week_id, project_id)
+        if submitted_by is not None:
+            sql += " AND submitted_by = ?"
+            params += (submitted_by,)
+        return self.db.fetch_one(sql + " ORDER BY created_at, id LIMIT 1", params)
 
     def list_submissions_for_week(self, reporting_week_id: str) -> List[Dict[str, Any]]:
         return self.db.fetch_all(
@@ -334,7 +336,7 @@ class TomohRepository:
         expected_version: Optional[int] = None,
     ) -> Dict[str, Any]:
         now = _now_iso()
-        existing = self.get_submission(reporting_week_id, project_id)
+        existing = self.get_submission(reporting_week_id, project_id, submitted_by)
         if existing:
             if expected_version is not None and existing["version"] != expected_version:
                 raise ValueError(
@@ -384,8 +386,8 @@ class TomohRepository:
     ) -> Dict[str, Any]:
         now = _now_iso()
         existing = self.db.fetch_one(
-            "SELECT * FROM achievements WHERE reporting_week_id = ? AND project_id = ? AND slot_index = ?",
-            (reporting_week_id, project_id, slot_index),
+            "SELECT * FROM achievements WHERE reporting_week_id = ? AND project_id = ? AND slot_index = ? AND responsible_user_id = ?",
+            (reporting_week_id, project_id, slot_index, responsible_user_id),
         )
         if existing:
             self.db.execute(
@@ -417,8 +419,8 @@ class TomohRepository:
         now = _now_iso()
         # Only replaces tasks for THIS reporting_week_id (never touches historical weeks!)
         self.db.execute(
-            "DELETE FROM upcoming_tasks WHERE reporting_week_id = ? AND project_id = ?",
-            (reporting_week_id, project_id),
+            "DELETE FROM upcoming_tasks WHERE reporting_week_id = ? AND project_id = ? AND responsible_user_id = ?",
+            (reporting_week_id, project_id, responsible_user_id),
         )
         created = []
         for t in tasks:
@@ -463,8 +465,8 @@ class TomohRepository:
     ) -> List[Dict[str, Any]]:
         now = _now_iso()
         self.db.execute(
-            "DELETE FROM challenges WHERE reporting_week_id = ? AND project_id = ?",
-            (reporting_week_id, project_id),
+            "DELETE FROM challenges WHERE reporting_week_id = ? AND project_id = ? AND responsible_user_id = ?",
+            (reporting_week_id, project_id, responsible_user_id),
         )
         out = []
         for c in challenges:
@@ -505,8 +507,8 @@ class TomohRepository:
     ) -> Dict[str, Any]:
         now = _now_iso()
         existing = self.db.fetch_one(
-            "SELECT * FROM project_statuses WHERE reporting_week_id = ? AND project_id = ?",
-            (reporting_week_id, project_id),
+            "SELECT * FROM project_statuses WHERE reporting_week_id = ? AND project_id = ? AND responsible_user_id = ?",
+            (reporting_week_id, project_id, responsible_user_id),
         )
         if existing:
             self.db.execute(
@@ -567,8 +569,8 @@ class TomohRepository:
     ) -> Dict[str, Any]:
         now = _now_iso()
         existing = self.db.fetch_one(
-            "SELECT * FROM events WHERE reporting_week_id = ? AND slot_key = ?",
-            (reporting_week_id, slot_key),
+            "SELECT * FROM events WHERE reporting_week_id = ? AND slot_key = ? AND responsible_user_id = ?",
+            (reporting_week_id, slot_key, responsible_user_id),
         )
         if existing:
             self.db.execute(
@@ -633,8 +635,8 @@ class TomohRepository:
     ) -> Dict[str, Any]:
         now = _now_iso()
         existing = self.db.fetch_one(
-            "SELECT * FROM news WHERE reporting_week_id = ? AND slot_index = ?",
-            (reporting_week_id, slot_index),
+            "SELECT * FROM news WHERE reporting_week_id = ? AND slot_index = ? AND responsible_user_id = ?",
+            (reporting_week_id, slot_index, responsible_user_id),
         )
         if existing:
             self.db.execute(

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import sqlite3
 from contextlib import contextmanager
+from contextvars import ContextVar
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any, Dict, Iterator, List, Optional, Sequence
@@ -16,6 +17,7 @@ from typing import Any, Dict, Iterator, List, Optional, Sequence
 class Database:
     def __init__(self, database_url: str):
         self.database_url = database_url
+        self._transaction_connection = ContextVar("tomoh_transaction", default=None)
         if database_url.startswith("sqlite:///"):
             self.dialect = "sqlite"
             self.sqlite_path = database_url[len("sqlite:///") :]
@@ -27,6 +29,10 @@ class Database:
 
     @contextmanager
     def connection(self) -> Iterator[Any]:
+        current = self._transaction_connection.get()
+        if current is not None:
+            yield current
+            return
         if self.dialect == "sqlite":
             conn = sqlite3.connect(self.sqlite_path)
             conn.row_factory = sqlite3.Row
@@ -56,6 +62,24 @@ class Database:
                 raise
             finally:
                 conn.close()
+
+    @contextmanager
+    def transaction(self):
+        if self._transaction_connection.get() is not None:
+            yield
+            return
+        with self.connection() as conn:
+            if self.dialect == "sqlite":
+                conn.execute("BEGIN IMMEDIATE")
+            token = self._transaction_connection.set(conn)
+            try:
+                yield
+            finally:
+                self._transaction_connection.reset(token)
+
+    def lock_reporting_week(self, week_id):
+        suffix = " FOR UPDATE" if self.dialect == "postgresql" else ""
+        return self.fetch_one("SELECT * FROM reporting_weeks WHERE id = ?" + suffix, (week_id,))
 
     def _adapt_sql(self, sql: str) -> str:
         if self.dialect == "postgresql":

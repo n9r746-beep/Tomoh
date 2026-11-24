@@ -186,3 +186,38 @@ def change_password(payload: PasswordChangeRequest, request: Request, user: Auth
     repo.db.execute("UPDATE user_sessions SET revoked=1 WHERE user_id=?",(user.id,))
     repo.record_audit(entity_type="user",entity_id=user.id,action="password_changed",actor_user_id=user.id)
     return {"status":"password_changed"}
+
+
+class ContributorsRequest(BaseModel):
+    user_ids: List[str] = Field(default_factory=list, max_items=100)
+
+@phase4_router.put("/projects/{project_id}/contributors")
+def set_contributors(project_id: str, payload: ContributorsRequest, request: Request, user: AuthenticatedUser=Depends(get_current_user)):
+    require_coordinator(user)
+    repo=request.app.state.repo
+    if not repo.get_project(project_id):raise HTTPException(status_code=404,detail="القسم غير موجود")
+    ids=list(dict.fromkeys(payload.user_ids))
+    if any(not repo.get_user(uid) or not repo.get_user(uid)["is_active"] for uid in ids):raise HTTPException(status_code=422,detail="المستخدم غير نشط أو غير موجود")
+    with repo.db.transaction():
+        wk=repo.get_current_reporting_week()
+        if wk:
+            repo.db.lock_reporting_week(wk['id'])
+            if repo.db.fetch_one("SELECT id FROM project_approvals WHERE reporting_week_id=? AND project_id=?",(wk['id'],project_id)):
+                raise HTTPException(status_code=409,detail={"code":"SECTION_APPROVED","message":"أعد فتح القسم للتعديل قبل تغيير المسؤولين."})
+        old=repo.list_project_members(project_id)
+        repo.db.execute("DELETE FROM project_members WHERE project_id=? AND member_role IN ('manager','contributor')",(project_id,))
+        for uid in ids:
+            repo.assign_project_member(project_id=project_id,user_id=uid,member_role="contributor",actor_user_id=user.id)
+        repo.db.execute("UPDATE projects SET owner_user_id=?,updated_at=? WHERE id=?",(ids[0] if ids else None,_now_iso(),project_id))
+        repo.record_audit(entity_type="project_members",entity_id=project_id,action="set_contributors",actor_user_id=user.id,old_value={"members":old},new_value={"user_ids":ids})
+    return {"members":repo.list_project_members(project_id)}
+
+@phase4_router.get("/weeks/{week_id}/projects/{project_id}/contributions")
+def review_contributions(week_id: str, project_id: str, request: Request, user: AuthenticatedUser=Depends(get_current_user)):
+    require_coordinator(user)
+    from app.collaboration import section_state
+    repo=request.app.state.repo
+    project=repo.get_project(project_id)
+    if not project or not repo.get_reporting_week(week_id):raise HTTPException(status_code=404,detail="القسم أو الأسبوع غير موجود")
+    state=section_state(repo,week_id,project)
+    return {"project":project,"status":state["status"],"approval":state["approval"],"expected_versions":{s["id"]:s["version"] for s in state["submissions"]},"contributors":[{**c,"detail":repo.get_project_week_detail(week_id,project_id,c["user_id"])} for c in state["contributors"]],"kpi_conflicts":[c for c in repo.get_week_bundle(week_id).get("kpi_conflicts",[]) if c["project_id"]==project_id]}
