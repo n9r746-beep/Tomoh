@@ -22,4 +22,6 @@ Run TOMOH_TEMPLATE_PPTX=/path/to/private/master_template.pptx python -m unittest
 ## Multiple contributors and attraction
 Each contributor has a separate submission/version and privately edits their own weekly fields. Coordinators assign multiple contributors with checkboxes, inspect each update, approve the combined section, and reopen it for revisions. Approval freezes section edits. Conflicting KPI values require an explicit choice per metric; employee figures remain preserved. Whole saves and report snapshots are transactional.
 
-Project P1_1 (الاستقطاب والتسجيل) maps the master slides 11–13, registration indicators and outreach counts. Existing production updates were retained during the schema migration. The updated regression suite contains 27 passing tests, including three contributors, simultaneous edits, stale approvals, reopening, author-preserving carry-forward and lossless PowerPoint export.
+Project P1_1 (الاستقطاب والتسجيل) maps the master slides 11–13, registration indicators and outreach counts. Existing production updates were retained during the schema migration. The updated regression suite contains 28 passing tests, including three contributors, simultaneous edits, stale approvals, reopening, author-preserving carry-forward and lossless PowerPoint export.
+
+Production authentication defaults to session_password. Vercel refuses to start in header_dev mode, even if it is explicitly requested through environment configuration.

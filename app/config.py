@@ -16,7 +16,7 @@ class Settings:
     mapping_config_path: Path
     migrations_dir: Path
     output_dir: Path
-    auth_mode: str = "header_dev"  # "header_dev" | "external_oidc"
+    auth_mode: str = "session_password"  # "session_password" | "header_dev" | "external_oidc"
     enable_visual_validation: bool = False
     uploads_dir: Path = BASE_DIR / "uploads"
     frontend_dir: Path = BASE_DIR / "frontend"
@@ -24,6 +24,9 @@ class Settings:
 
     @classmethod
     def from_env(cls) -> "Settings":
+        auth_mode = os.environ.get("TOMOH_AUTH_MODE", "session_password")
+        if os.environ.get("VERCEL") and auth_mode == "header_dev":
+            raise RuntimeError("Development header authentication is forbidden on Vercel.")
         return cls(
             database_url=os.environ.get(
                 "TOMOH_DATABASE_URL",
@@ -53,7 +56,7 @@ class Settings:
             frontend_dir=Path(
                 os.environ.get("TOMOH_FRONTEND_DIR", str(BASE_DIR / "frontend"))
             ),
-            auth_mode=os.environ.get("TOMOH_AUTH_MODE", "header_dev"),
+            auth_mode=auth_mode,
             enable_visual_validation=os.environ.get("TOMOH_VISUAL_VALIDATION", "false").lower() == "true",
             ai_assistant_enabled=os.environ.get("TOMOH_AI_ASSISTANT_ENABLED", "false").lower() == "true",
         )

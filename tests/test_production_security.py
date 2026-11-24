@@ -1,3 +1,4 @@
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -22,3 +23,10 @@ class ProductionSecurityTests(unittest.TestCase):
         self.assertEqual(self.client.post('/api/v1/weeks',json={}).status_code,403)
         self.assertEqual(self.client.post('/api/v1/weeks',headers={'X-Requested-With':'XMLHttpRequest','Origin':'https://attacker.example'},json={}).status_code,403)
         self.assertEqual(self.client.post('/api/v1/weeks',headers={'X-Requested-With':'XMLHttpRequest','Origin':'https://testserver'},json={}).status_code,422)
+
+    def test_production_configuration_fails_closed(self):
+        from unittest.mock import patch
+        with patch.dict(os.environ, {'VERCEL':'1','TOMOH_AUTH_MODE':'header_dev'}):
+            with self.assertRaises(RuntimeError):Settings.from_env()
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertEqual(Settings.from_env().auth_mode,'session_password')

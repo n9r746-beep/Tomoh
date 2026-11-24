@@ -18,7 +18,7 @@ TEMPLATE=Path(os.environ.get('TOMOH_TEMPLATE_PPTX','/vercel/master_template.pptx
 class AdditionalEntriesTests(unittest.TestCase):
     def test_employee_saves_reloads_and_exports_five_achievements_and_tasks(self):
         with tempfile.TemporaryDirectory() as tmp:
-            cfg=Settings(database_url='sqlite:///'+tmp+'/db.sqlite',template_pptx_path=TEMPLATE,mapping_config_path=BASE_DIR/'config/mapping_config.json',migrations_dir=BASE_DIR/'migrations',output_dir=Path(tmp)/'output')
+            cfg=Settings(database_url='sqlite:///'+tmp+'/db.sqlite',template_pptx_path=TEMPLATE,mapping_config_path=BASE_DIR/'config/mapping_config.json',migrations_dir=BASE_DIR/'migrations',output_dir=Path(tmp)/'output',auth_mode='header_dev')
             app=create_app(cfg);c=TestClient(app)
             coord={'X-User-Id':'u-coord'};employee={'X-User-Id':'u-abdullah'}
             r=c.post('/api/v1/weeks',headers=coord,json={'week_number':45,'fiscal_year':2026,'start_date':'2026-11-22','end_date':'2026-11-26'})

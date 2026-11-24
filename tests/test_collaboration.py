@@ -9,7 +9,7 @@ from app.config import BASE_DIR,Settings
 class CollaborationTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory()
-        settings=Settings(database_url='sqlite:///'+self.tmp.name+'/test.db',template_pptx_path=Path(os.environ.get('TOMOH_TEMPLATE_PPTX','/vercel/master_template.pptx')),mapping_config_path=BASE_DIR/'config/mapping_config.json',migrations_dir=BASE_DIR/'migrations',output_dir=Path(self.tmp.name)/'out')
+        settings=Settings(database_url='sqlite:///'+self.tmp.name+'/test.db',template_pptx_path=Path(os.environ.get('TOMOH_TEMPLATE_PPTX','/vercel/master_template.pptx')),mapping_config_path=BASE_DIR/'config/mapping_config.json',migrations_dir=BASE_DIR/'migrations',output_dir=Path(self.tmp.name)/'out',auth_mode='header_dev')
         self.app=create_app(settings);self.c=TestClient(self.app);self.coord={'X-User-Id':'u-coord'}
         r=self.c.post('/api/v1/admin/users',headers=self.coord,json={'email':'third@example.test','full_name_ar':'الموظف الثالث','role':'employee'})
         self.assertEqual(r.status_code,201,r.text);self.ids=['u-abdullah','u-fahad',r.json()['user']['id']]
