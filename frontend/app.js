@@ -410,7 +410,7 @@
 
     // C. Previous Week's Achievements
     if (inputs.includes("achievements")) {
-      const maxAch = cfg.max_achievements || 3;
+      const maxAch = Math.max(cfg.max_achievements || 3, ...(cur.achievements || []).map(a => a.slot_index));
       const achMap = {};
       (cur.achievements || []).forEach((a) => (achMap[a.slot_index] = a.content_ar));
       let achInputs = "";
@@ -425,12 +425,14 @@
         <div class="card">
           <div class="card-header"><h2 class="card-title">إنجازات الأسبوع الماضي</h2></div>
           ${achInputs}
+          ${editable ? `<button type="button" id="btn-add-achievement" class="btn btn-outline btn-sm">+ إضافة إنجاز</button>` : ""}
+          <p class="form-hint">يمكن إضافة حتى ١٠ إنجازات. البنود الزائدة عن القالب تظهر في شرائح متابعة.</p>
         </div>`;
     }
 
     // D. Current Week's Tasks (Project Tasks)
     if (inputs.includes("upcoming_tasks")) {
-      const maxT = cfg.max_tasks || 2;
+      const maxT = Math.max(cfg.max_tasks || 2, ...(cur.upcoming_tasks || []).filter(t => t.task_kind === "project_task").map(t => t.sequence_no));
       const tMap = {};
       (cur.upcoming_tasks || [])
         .filter((t) => t.task_kind === "project_task")
@@ -447,6 +449,8 @@
         <div class="card">
           <div class="card-header"><h2 class="card-title">مهام الأسبوع الحالي</h2></div>
           ${tInputs}
+          ${editable ? `<button type="button" id="btn-add-task" class="btn btn-outline btn-sm">+ إضافة مهمة</button>` : ""}
+          <p class="form-hint">يمكن إضافة حتى ٢٠ مهمة. البنود الزائدة عن القالب تظهر في شرائح متابعة.</p>
         </div>`;
     }
 
@@ -603,6 +607,26 @@
     container.querySelectorAll("input, textarea, select").forEach((el) => {
       el.addEventListener("input", () => (state.dirty = true));
     });
+
+    function connectAddEntry(buttonId, selector, dataKey, limit, label, maxLength) {
+      const button = $(buttonId);
+      if (!button) return;
+      const update = () => { button.disabled = container.querySelectorAll(selector).length >= limit; };
+      button.onclick = () => {
+        const count = container.querySelectorAll(selector).length;
+        if (count >= limit) return;
+        const group = document.createElement("div"); group.className = "form-group";
+        const number = count + 1;
+        group.innerHTML = `<label class="form-label">${label} (${number})</label><textarea class="textarea ${selector.slice(1)}" data-${dataKey}="${number}" maxlength="${maxLength}"></textarea>`;
+        button.before(group);
+        const input = group.querySelector("textarea");
+        input.addEventListener("input", () => { state.dirty = true; });
+        input.focus(); state.dirty = true; update();
+      };
+      update();
+    }
+    connectAddEntry("btn-add-achievement", ".ach-input", "slot", 10, "إنجاز الأسبوع الماضي", 220);
+    connectAddEntry("btn-add-task", ".task-input", "seq", 20, "مهمة الأسبوع القادم", 200);
 
     const addRowBtn = $("btn-add-action-row");
     if (addRowBtn) {

@@ -106,6 +106,9 @@ class ReportService:
                         cloud_storage.restore_image(news["image_path"], self.settings.uploads_dir)
             field_values = self.registry.resolve_bundle_to_fields(bundle)
 
+            from app.engine.continuations import overflow_entries, append_continuations
+            overflow = overflow_entries(self.registry, bundle, field_values)
+
             wk_num = bundle["reporting_week"]["week_number"]
             ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
             out_path = (
@@ -132,6 +135,9 @@ class ReportService:
                     generated_pptx=tmp_out,
                     expected_modified_slides=engine_res.slides_modified,
                 )
+                structural["continuation_slides"] = append_continuations(tmp_out, overflow)
+                import hashlib
+                engine_res.output_sha256 = hashlib.sha256(tmp_out.read_bytes()).hexdigest()
                 os.replace(tmp_out, out_path)
                 try:
                     os.chmod(out_path, 0o600)
